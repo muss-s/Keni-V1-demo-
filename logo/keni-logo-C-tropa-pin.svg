@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Keni logo: three friends meeting inside a map pin">
+  <defs>
+    <clipPath id="pc"><path d="M60 110C60 110 24 78 24 50a36 36 0 1 1 72 0c0 28-36 60-36 60z"/></clipPath>
+  </defs>
+  <g clip-path="url(#pc)">
+    <rect width="120" height="120" fill="#2a1c52"/>
+    <circle cx="42" cy="38" r="30" fill="#a88cff"/>
+    <circle cx="80" cy="40" r="30" fill="#ff8fc8" opacity=".92"/>
+    <circle cx="60" cy="78" r="32" fill="#ffd6a8" opacity=".92"/>
+  </g>
+  <circle cx="60" cy="50" r="11" fill="#fff"/>
+</svg>

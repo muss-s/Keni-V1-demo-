@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Keni logo: a map pin with the letter k">
+  <defs>
+    <linearGradient id="ga" x1="20" y1="14" x2="100" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a88cff"/><stop offset=".55" stop-color="#ff8fc8"/><stop offset="1" stop-color="#ffd6a8"/>
+    </linearGradient>
+  </defs>
+  <path d="M60 110C60 110 24 78 24 50a36 36 0 1 1 72 0c0 28-36 60-36 60z" fill="url(#ga)"/>
+  <path d="M49 31v38M49 56l19-18M57 50l13 19" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

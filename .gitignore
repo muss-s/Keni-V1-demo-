@@ -1,0 +1,5 @@
+backups/
+.vercel/
+node_modules/
+*.log
+.mapbox-token

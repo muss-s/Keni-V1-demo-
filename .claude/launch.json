@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "keni", "runtimeExecutable": "node", "runtimeArgs": ["-e", "const fs=require('fs'),p=require('path'),T={'.html':'text/html','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.gif':'image/gif'},root=process.cwd();require('http').createServer((q,s)=>{const u=decodeURIComponent(q.url.split('?')[0]);if(u==='/'||u==='/index.html'||u==='/keni.html'){s.setHeader('content-type','text/html');return s.end(fs.readFileSync(p.join(root,'keni.html')))}const f=p.join(root,u);if(!u.startsWith('/images/')||!f.startsWith(p.join(root,'images'))||!fs.existsSync(f)||fs.statSync(f).isDirectory()){s.statusCode=404;return s.end('not found')}s.setHeader('content-type',T[p.extname(f)]||'application/octet-stream');s.end(fs.readFileSync(f))}).listen(process.env.PORT||5173)"], "port": 5173, "autoPort": true },
+    { "name": "keni-files", "runtimeExecutable": "node", "runtimeArgs": ["-e", "const fs=require('fs'),p=require('path'),T={'.html':'text/html','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png'};require('http').createServer((q,s)=>{const f=p.join(process.cwd(),decodeURIComponent(q.url.split('?')[0]));if(!f.startsWith(process.cwd())||!fs.existsSync(f)||fs.statSync(f).isDirectory()){s.statusCode=404;return s.end('not found')}s.setHeader('content-type',T[p.extname(f)]||'application/octet-stream');s.end(fs.readFileSync(f))}).listen(process.env.PORT||5175)"], "port": 5175, "autoPort": true }
+  ]
+}
