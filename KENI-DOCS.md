@@ -368,3 +368,159 @@ To run it locally, use the `keni` preview server in `.claude/launch.json`. It se
 ## 16. Keeping this file true
 
 Update this file in the same sitting as any feature change: add the feature to its section, and change the date at the top. If something is removed, remove it here too, or move it to "hidden" or "switched off" in section 8.
+
+---
+
+## 17. The real version (`keni-real/`, started 2026-10-14)
+
+Sections 1–16 describe the demo, `keni.html`, which stays frozen for the pitch. The real, launchable Keni is a separate copy: `keni-real/index.html` plus its own `keni-real/images/`. Run it with the `keni-real` preview server (port 5176). It is live at https://keni-real.vercel.app (Vercel project `keni-real`; deploy from inside `keni-real/`). `keni-real/` is its own git repo, on GitHub at https://github.com/muss-s/keni-real (private).
+
+**Deleted from the real version (not hidden):**
+- The demo tropa (Mika, Jun, Bea, Carlo), "Load demo tropa", and the "friend tagged this place" lines.
+- Plan my night, What are you craving?, and the old Plan hub. Tropa mode is the only thing on the `plan` view.
+- Fake social sign-in (Google / Facebook / Instagram / TikTok and the "Juan Dela Cruz" profile). Signing in is now **your name only**, on the welcome page, in step 4, and in the sign-in sheet. Real accounts come with the backend.
+- The stock profile photo for signed-in people.
+- The whole old Studio: made-up stats, audiences, tips, sample reviews, demo bookings, the boosts wallet, fees, set-up packages, demo owner logins, the 4-digit "any code works" check, and the earning CSS.
+- Reservations (the Reserve button). Nothing was ever sent to a venue.
+- The sample slow-hour deals, the old fictional place lists (`SAMPLE_VENUES`, `WELL_KNOWN`), and every made-up menu. Only Rio St. Coffee's menu is left, copied from its menu photos.
+- Inside Chats: the fake people (Andrea, Paolo and others), fake friend requests, simulated replies and simulated poll votes.
+- Inside Pasabit: the daily sample Pasabits, simulated "tag along" answers, and the simulated host messages.
+
+**Switched off until the backend (code kept):** Chats (`KENI_OFF.chats`, and the dock button is hidden) and Pasabit, which only runs when Chats run. Nobody else can be in a chat or a Pasabit without a server. The plan: step 2 is the backend with accounts (Supabase Auth), tropas by link, shared vibe taps and shared reports. Step 3 is Pasabit, with reporting, blocking and approving who joins.
+
+**The new Studio** (`Keni · Studio`): "I own a place" asks for your name, then lets you either claim a place that is already on the map (full or basic listing) or request a new listing. Both need a page or a number to check. Requests show in the Studio as "⏳ Waiting for a check" and can be cancelled. The owner tools (listing, menu, promos, reports) are listed as coming once the place is checked. For now requests stay on the phone (`S.biz.claims`, `S.biz.requests`). Until the backend, you are the admin: you add places by sending them to Claude, and later through the Supabase dashboard.
+
+**Fixed in the real version only:**
+- The map stayed blank when location was off at first load, because the location prompt was added to the empty map area first.
+- The place count on the map could show an old number after the places changed, because the small-places code wrote back a saved copy of the count when the map moved.
+
+Both bugs are still in the demo.
+
+### Places live in the database (added 2026-10-14)
+
+Supabase project **keni** (Singapore, free plan), table `public.places`. It holds every place: the 18 big listings (`level = full`) and the 1,441 small pins (`level = basic`). Everyone can read places that aren't hidden. Only the Keni team can change them, from the Supabase dashboard.
+
+How the app gets them (`Keni · places from the database`):
+- On open, the copy saved on the phone (`keni.places` in the browser) is used straight away, so there's no waiting.
+- Then a tiny check asks how many places there are and when the last one changed. Only if that's different is the full list (about 400 KB) downloaded, swapped in, and saved for next time.
+- The place lists inside the file are only a fallback for the very first open while offline. The database wins.
+
+**Adding a big place** (Supabase dashboard → Table Editor → `places` → Insert row):
+- `id`: short and unique, e.g. `kape-ni-juan`.
+- `name`, `lat`, `lng`: the pin. Copy the coordinates from Google Maps.
+- `kinds`: main kind first, e.g. `{cafe}`. The column notes list the options.
+- `area`, `price`, `blurb`, `vibes`, `hours` (e.g. `[9, 22]`, empty = "Hours not listed"), `contacts`.
+- `photo`: upload the picture to Storage → `place-photos`, copy its public URL, and paste it here.
+
+It shows on everyone's map the next time they open Keni.
+
+**Promoting a small pin:** open its row (ids start with `b-`), fill in the details, and set `level` to `full`. **Taking a place off the map:** set `hidden` to true. That's better than deleting, because people's saves and vibes keep pointing at the same id.
+
+### Accounts (added 2026-10-14)
+
+Accounts are **email + password** (Supabase Auth, `Keni · accounts`). The same step-by-step form is used on the welcome page, in step 4, and in the sign-in sheet:
+- **Start:** two buttons, Make an account and Sign in, plus I own a place and Skip.
+- **Make an account (email checked first, since 2026-10-15):** step 1 name → step 2 email (Keni emails a 6-digit code; Email OTP Length is set to 6 in Supabase) → step 3 enter the code (Resend code / Change email) → step 4 password + confirm password (at least 8 characters). No usable account exists until the code is right. If the email already had an account, the code just signs them in. The Supabase email templates **Confirm signup** and **Magic link** must contain `{{ .Token }}` so the code is in the email.
+- **Sign in:** email + password, with Forgot password? (emails a reset link; opening it asks for the new password twice).
+- **Profile:** shows "Signed in as … · Change password", or Make an account · Sign in.
+- **Owners:** "I own a place" asks them to sign in first, then claim their place.
+- Guests can skip and use Keni on the phone only.
+
+**What the account holds:** `public.profiles` (name, photo, bio), made automatically at sign-up. Signed-in people can see names and photos; only you can change yours. Editing your profile updates it. Sign out and Reset Keni also sign out of the account. Taste, saves and tropas still stay on the phone.
+
+**Limits for now:**
+- By default Supabase asks new accounts to confirm their email. That uses its built-in email sender, which only sends a few emails an hour. To switch it off: Supabase → Authentication → Sign In / Providers → Email → Confirm email.
+- Before launch, connect your own email sender (Authentication → Emails → SMTP).
+
+### Tropas by link (added 2026-10-14)
+
+Supabase tables `public.tropas` and `public.tropa_members`, reached only through the `tropa_*` functions (`Keni · tropa sync`):
+- **Invite:** shows one link (…/#t=CODE) with Share or Copy. The tropa becomes shared the first time someone makes the link, and the friends already added by hand come along.
+- **Opening a link:** shows "You're invited · Join …" with the people already in. Type your name and you're in. No app install or account needed.
+- **Syncing:** while Tropa mode is open, every phone sends what changed and pulls the rest every 4 seconds: who's in, taste and hard no's, tonight's answers, who's out, where you're meeting, and the locked pick. When someone locks a pick, every phone jumps to "Locked in".
+- **Who can do what:** knowing the code lets you see the tropa. Being a member (your account, or the secret your phone got when you joined) lets you change it. Inside a tropa anyone can change anyone's answers.
+- **Signed in:** you join as your account. Your shared tropas come back on any phone you sign in on. Add friend shows "Your friends on Keni" (people you already share a tropa with); tapping one adds them, and it shows up in their app.
+
+Limits: polling, not live push; up to 30 people per tropa and 6 tropas per phone.
+
+- **My tropas (added 2026-10-15):** a **Tropa** button in the dock, left of Explore (where Chats sits when chats are on); it opens My tropas, and the same screen opens from the profile. It shows your tropas to switch between, New tropa, rename and emoji, the people in the tropa (On Keni / Joined with the link / Added by you) with Remove, the invite link and code (Share invite / Make invite link), Add friend, Join with a code, people from your other tropas, Leave or Delete, and Plan with this tropa. The UI says "tropa", never "crew": the first step is labelled Tropa, and the fold is "People in this tropa".
+- **Leave tropa (added 2026-10-15):** for a shared tropa, the tropa bar shows **Leave tropa** (tap twice) instead of Delete. It removes your place on the server (`tropa_leave`), then this phone's copy. Friends see you go within seconds. When the last person leaves, the tropa is deleted. Leaving your only tropa gives you a fresh empty one. Tropas that only exist on the phone still use Delete.
+- **Join with a code (added 2026-10-15):** Tropa mode → Manage crew → **Join with a code**. Type the tropa code (or paste the whole link) and you get the same join screen as the link. The invite sheet also says "Or tell them the code …". Each tropa has one code, and there is no way to change it yet.
+- **Fixed 2026-10-15:** people are removed from a tropa only when someone taps Remove or Remove all, never because a phone's list is missing them. That had removed the owner of a tropa after they opened their own invite link. Each copy of a tropa keeps its own sync record, duplicate copies on one phone are merged on start, and a phone no longer re-sends the same change every few seconds.
+
+### Place page: Contact & hours
+
+The quick buttons and rows use line icons instead of emoji: call, Facebook, Instagram, website, look it up, directions, clock, pin. Facebook and Instagram show the page name only. The styles for this box had been deleted along with the reservation styles and were put back on 2026-10-14. The made-up contact details for sample places were removed.
+
+### Reports and the admin dashboard (added 2026-10-14)
+
+- **Reports:** "Report a problem" sends every report to `public.reports`, one per place per phone; sending again replaces it, and taking it back deletes it. Anyone can send. Only admins can read them.
+- **Admins:** listed in `public.admins`. The first one is the owner's account (aimielmarasigan@gmail.com). To add someone, add their user id to that table in the Supabase dashboard.
+- **Dashboard:** `keni-real.vercel.app/admin` (`keni-real/admin.html`, not linked from the sign-in page). Sign in with a Keni account. Non-admins see "Not allowed", and the database refuses them anyway.
+  - Tabs: New / Fixed / Dismissed / All, with a count of new reports.
+  - Reports are grouped by place, showing reason, note, time, and whether it came from an account or a guest.
+  - Buttons: Mark fixed, Dismiss, Reopen, Look it up.
+  - **Fix the place:** edit name, main kind, hours, pin, or hide it from the map. The change shows on everyone's map the next time they open Keni.
+  - Refreshes every 30 seconds.
+- **Admin button:** a signed-in admin sees "Admin" next to "Signed in as …" in their profile.
+- **Next:** owner claims and listing requests go on the same page.
+- **Map bar (real version):** the place counter ("18 places") and "Show all" were removed; only "Near me" stays on the map.
+- **Folding question rows (real version):** on the map, tap **Plans** or **Vibes** (renamed from "Anong trip mo?" and "Anong vibe?") to open or fold its row (chevron turns). Both start folded; a picked chip stays visible when its row is folded, so you can always see and clear what is filtering. The choice is remembered on the phone (localStorage `keni.fold`). The first-run tour opens the trip row by itself on its step.
+- **Filters in the search bar (real version):** the Filters chip moved into the search bar as a sliders icon on the right; a pink number shows how many filters are on. It opens the same Filters panel.
+- **Round Tropa button removed (real version):** the round people button on the map (and the Tropa mode button in the top bar) is gone; the dock Tropa button does the same job. The first-run tour points at the dock button instead.
+- **Cravings (added 2026-10-15, real version):** a food you want right now: Chicken, Sushi, Tusok-tusok, Ramen, Samgyup, Burger, Pizza, Pares & lomi, Sisig, Milk tea, Sweets. A chip only shows when some place has it.
+  - **On the map:** a third foldable row, **Cravings**, under Plans and Vibes (starts folded). Tapping one shows only the places that have it, picks its plan (Foodtrip, or Kape for Milk tea and Sweets), and zooms the map to them; basic places show at any zoom while a craving is on. Tap it again to clear; tapping a different plan clears it too.
+  - **In Tropa mode:** "Tell me what you’re craving?" (optional, pick any) in the Trip question for each person. A place with one of their cravings scores higher for them, one without scores a bit lower. The summary line says what the tropa is craving, and the pick card shows which cravings the place covers. Friends with the link answer on their own phone (synced with the other answers).
+  - **Which places have what:** the `cravings` column on `public.places` (ids above, e.g. `{ramen,chicken}`). Empty = Keni guesses from the name, kinds and menu (e.g. "Ramen" in the name). Tell Claude, or edit the column in Supabase. Tusok-tusok and Sisig have very few places so far, so they need tagging.
+  - **Silog (added 2026-10-16):** 🍳 Silog, a Foodtrip craving. Keni guesses it from "silog", "tapsihan", "tapa", "longganisa" or "tocino" in the name (8 places at launch, e.g. tapsilogans). Sisig's emoji changed to 🥘 so the two don't share 🍳. Adding a new craving id means updating three places: `CRAVES` in `index.html`, `CRAVES` in `admin.html`, and the DB allow-list `public.craving_ok()`.
+- **Plan label:** the food plan is called **Foodtrip** (not "Gutom") in the real version.
+- **Matching screen (real version):** the radar, counters and "Matching your tropa" panel were replaced by a short Keni logo animation (the pin hops, two rings pulse, "Finding your spot..."). It lasts about 1.4 s, then shows the pick.
+- **Plans, Cravings and Vibes work together (real version):** tapping a plan or craving no longer clears a vibe you already picked (it used to when no place matched both). If nothing matches the mix the map says "No places match"; tap a chip again to clear it. A craving still sets its own plan (Foodtrip or Kape).
+- **Cravings now work with Plans (real version):** a craving no longer picks or replaces the plan. Plan + craving + vibe all apply together, so "ramen at an inuman" and "ramen at a cafe" are different searches. In Tropa mode a craving no longer fills in the Trip answer either. A place only appears for a mix if it has both the plan kind and the food (tag a cafe that sells ramen with both its kinds and the `cravings` column).
+- **Community tagging of cravings (real version, deployed 2026-10-15):** on a place page, a "Serves" line shows its foods with "N say so" counts and a **Tag what they serve** button. Only signed-in people can tag (guests get the sign-in screen). One vote per person per place and food; tap again to take yours back. A food shows on the map once **2 different people** agree (`COMMUNITY_MIN`); Keni's own tags always count. Stored in `public.craving_votes`, used only through `craving_tags` / `craving_vote`. The admin page has a "Cravings tags from people" list with a **Remove** button (`craving_clear`).
+- **Add a place with a backend (real version, deployed 2026-10-15):** only signed-in people can add (guests get the sign-in screen). Open it from the hold-the-map ring ("Add a place here") or the Added strip. First question: **Who can see it?**
+  - **Gatekeep?**: only the adder's tropa sees it. Just a name, a symbol (16 to pick from; it is the pin) and the pin location. It shows on the map with that symbol and a small 🔒; the place page says "Gatekeep · only your tropa sees this" and has **Make public (needs approval)** and Edit. Tropa mates must be signed in to see it.
+  - **Everyone**: needs admin approval first (the screen says so). Questions: name, kind + what they serve (optional), where, vibes, hours + price, photo + one-line description (optional), review. Until approved only the adder sees it ("Waiting for approval"). Limit: 5 waiting places per person.
+  - Stored in `public.places` (`added_by`, `visibility`, `status`, `symbol`), written only through `place_add` / `place_update_mine` / `place_remove_mine` / `place_publish`; row security decides who gets which rows. The app loads them in the "Keni · my places" module (never into the shared places cache).
+  - **Admin page:** "Places waiting for approval" list with **Approve** / **Reject**.
+  - Old places saved on a phone before accounts keep working (local copy).
+- **Headings font (real version, deployed 2026-10-15):** headings, place names and big numbers use **Bricolage Grotesque** (weight 800, upright) instead of Instrument Serif (`--display`). The highlighted words keep the lavender → pink → gold gradient.
+- **Sign-in sheet (real version, deployed 2026-10-15):** no "Your account" label, no explainer line, no "Continue as guest" (close with ✕). Sign in and Make an account both have a Back button. When something needs an account (like Add a place), a highlighted line says why.
+- **Gatekeep = spots (real version, deployed 2026-10-15):** a "Gatekeep?" place is a **spot** (like "my crib"), not a listing. It is only a pin on the big map (its symbol + 🔒), never in Explore, search, ratings or tropa picks. Tapping it opens a small card: symbol, name, area and distance, 🔒 line, **Directions**, **Tropa meet here**, and for the adder Edit / Make it public (needs approval) / Remove (tap twice). Code: `K.mySpots`, `K.openSpot` in "Keni · my places".
+- **No zoom on iPhone (real version, deployed 2026-10-15):** text boxes are 16px on iPhone, so tapping the search (or any box) no longer zooms the page.
+- **Map filters in one row (real version, deployed 2026-10-15):** on the map, Plans, Vibes and Cravings are 3 pills in one row under the search button. Tap one and its choices slide out in a row under it (one open at a time); picking one closes the row and shows the pick on the pill (e.g. "🍗 Chicken"). Tap the pill again and tap the picked choice (✕) to clear it. **Near me** is now a round button at the bottom right, above the dock. Code: `ui.mfOpen`, `mapBar()` in `renderFilters`.
+- **Map pills on the search row (real version, deployed 2026-10-15):** Plans / Vibes / Cravings sit on the same row as the round search button (between it and the map tools); the row scrolls sideways if it doesn't fit, and hides while search is open.
+- **Admin panel remade (real version, deployed 2026-10-15):** `keni-real/admin.html` now has 4 tabs with count badges: **To do** (places waiting for approval as cards with photo, tags, a small map and big Approve / Reject, then new reports; "All clear 🎉" when empty), **Places** (search every place by name, filters All / Added by people / Hidden / Small pins, tap a row to edit name, kind, hours, pin or hide it), **Reports** (New / Fixed / Dismissed / All), **Cravings** (tags with Remove). Approve, Reject, Mark fixed and Dismiss show a toast with **Undo** for 5 seconds. Same look as the app (dark purple, Bricolage headings). Spots (Gatekeep?) are never listed.
+- **Keni's own area labels removed from the big map (real version, deployed 2026-10-15):** the map's own town names are enough; they used to double up.
+- **Explore sections (real version, deployed 2026-10-15):** with no filter or search on, Explore starts with sideways rows: **Open now near you** (closest open places), **Picked for you** (best matches; shows "✨ N% your vibe" only at 60% or more), **New on Keni** (places people added in the last 60 days; hidden until there are 3), **Craving something?** (food tiles; a tap opens the map with that craving on), then **Everything** (the full grid). A row needs at least 3 places to show. Code: "Keni · explore sections", `#xsec`.
+- **Reports no longer change your own map (real version, deployed 2026-10-15):** a report only goes to the Keni team; the place stays as the database has it. Places an older version hid after a report come back.
+- **Big or small pin on approval (admin, deployed 2026-10-15):** each place waiting for approval has "Show it as: Big pin (full listing) / Small pin (just a dot)"; Approve saves that as `level` (`full` / `basic`).
+- **You on the map (real version, deployed 2026-10-15):** your spot on the big map is your profile picture (or your initial) in a small round bubble with a white ring and a point under it, like Life360 (34px). Guests get a 🙂 bubble. It redraws when your name or photo changes. Code: `homeIcon()`, `K.meAv`.
+- **Tropa step icons (real version, deployed 2026-10-15):** the Tropa / Trip / Where / Pick steps use simple line icons (people, sparkle, pin, trophy) instead of the 3D pictures. Explore rows now animate without ever being hidden, so a phone that skips animations still shows them.
+- **Admin Tags tab:** the Cravings tab is now **Tags** with Cravings · Vibes · Kinds and a Big pins / All places switch.
+  - **Overview:** one row per tag with how many places have it and where it comes from (by Keni = saved on the place, by people = 2+ votes, guessed = from the name). Under 3 places shows "⚠ Needs tagging". Tap a row to see its places (✕ removes the tag from one) and to search and add a place.
+  - **Needs tagging:** places with no craving (food and drink places) or no vibe, each with one-tap chips that save straight to `places.cravings` / `places.vibes` (Undo for 5 seconds). Adding a craving to a place that only had guesses saves the guesses too, so nothing disappears from the map.
+  - **From people:** 1-vote tags get **Approve** (adds it to the place now) or Remove; 2+ vote tags get Remove.
+  - **Kinds:** count per main kind; tap one to change any place's main kind from a dropdown. Wrong-kind reports link to Reports.
+- **Admin animations** only slide in now (never start hidden), so rows can't get stuck invisible.
+- **@usernames (real version):** sign-up is now 5 steps: name → **username** → email → code → password. The username box starts empty (not made up from the name) and checks as you type ("✓ @mia.cruz is available" / "✗ taken"). Rules: 3–20 of a-z 0-9 . _ (not starting or ending with . or _, no ".."), lowercase, a few reserved (admin, keni, support…).
+  - **Unique in the database:** `profiles.username` with a unique index on `lower(username)` and a format check; `username_free(p)` answers "is it free?" (anon too, for sign-up).
+  - Accounts made before usernames get a one-time **Pick your username** sheet after signing in (with Later).
+  - **Edit profile → Username** checks as you type and saves to the database; a taken one shows an error and nothing is saved.
+- **Admin sees who reported:** each report shows "from @username (Name)", "from Name · no username yet" or "from a guest". Places waiting for approval show who added them the same way. Names come from `public.profiles` (`reports.reporter`, `places.added_by`).
+- **Usernames in admin Tags:** "From people" rows say who tagged it ("by @mia.cruz, @jo and 2 more"; a name if they have no username yet), and a place chip that's on the map because of people shows who agreed. `craving_recent()` now also returns `voters` (admins only).
+- **Approving a people's tag (admin):** an approved tag leaves "From people · waiting" and moves to "On the map from people" with a ✓ approved tag. Remove on an approved one also takes it off the place.
+- **Place links + Open in Keni:** `keni-real.vercel.app/#place=<id>` opens that place on the map with its page open (waits for places to load; says so if the place is gone). Each report group in admin has **📍 Open in Keni**, which opens the reported place in a new tab.
+- Map filter pills (Plans, Vibes, Cravings) no longer show a dropdown arrow. They're tighter now.
+- Profile: **Reset Keni** removed. **Sign out** (profile and settings) now goes back to the welcome page (Make an account / Sign in).
+- **Cheaper map:** the main map is now a Mapbox vector map (Mapbox GL JS, drawn inside Leaflet by mapbox-gl-leaflet 0.0.16, mapbox-gl 3.15.0, loaded only when the map first opens). Mapbox counts it once per opening (50,000 free a month) instead of per picture tile (about 10–20 per pan or zoom). Keni Night / Light / Satellite still switch. The small maps (a place's Map tab, add-a-place, area and tropa maps) use OpenStreetMap's free tiles, made dark in CSS, and never touch Mapbox. If Mapbox refuses (limit or token), the main map falls back to OpenStreetMap; a phone without WebGL gets the old picture tiles.
+- **Tropa mode top bar:** just the Keni logo. No search, area button or profile there.
+- **iPhone scroll fix:** sheets (place page, profile, every other sheet) and other panels that scroll on their own could get stuck after scrolling to the very bottom or top on iPhone. Now, when a finger lands on one, it's nudged 1px off the edge first, so Safari keeps the swipe in the sheet.
+- **Pending places stay private:** the app's map only shows approved public places, your own places (any state; an unapproved one says ⏳ Waiting for approval and stays out of New on Keni) and tropa gatekeep spots. Admins still see pending places, but only in the admin page. The database rule now only lets tropa mates see each other's gatekeep spots, never pending public places.
+- **Planning redo (Tropa mode):** the dock's Tropa button opens planning straight away. The tropa chip at the top (🔥 Squad · 1 going) opens Your tropas (switch, rename, people, invite). Just you? Planning starts at the trip question, with a "Going with friends? Invite" card. The trip question shows Trip and Budget, and cravings and vibe sit under More. The trip is a real filter now: places that fit a trip someone picked (all places if none do), so the counts and "other options" are honest. The Where map has no area labels, and its dots and count only show places that fit the trip.
+- **Live tropas:** each shared tropa has a Supabase Realtime broadcast channel (`tropa-<code>`). When a phone saves a change or someone joins, it sends a "poke" with no data, and every phone in the tropa pulls right away, wherever it is in the app. Someone new shows as "🎉 Mia joined Squad". The 4-second check still runs while Tropa mode or Your tropas is open (15 s once the live channel is up) as a fallback.
+- **Tropa roles:** `tropas.owner` is the member who made the tropa (existing tropas: their first member). Only the owner removes people, adds people by hand, renames, or marks someone not going. Everyone else answers only for themselves. The **planner** picks the place (`tropa_planner()`): the owner when they're going, otherwise whoever taps **Plan it** first (`state.planner = {id, at}`, good for 8 hours). Only the planner changes Where or locks or unlocks the pick. `tropa_save` enforces all of this on the server. If the owner leaves, the next member with a phone takes over. Members' list shows 👑 Owner. `phone` on each member tells joined-with-a-phone apart from added-by-hand.
+- **I'm set ✓:** in a shared tropa, everyone answers trip and budget (cravings and vibe under More) and taps **I'm set ✓** (`tonight.ready`). Then they see who's ✅ Set and who's ⏳ Deciding. The planner gets **Choose where we meet** once everyone going is set, or **Don't wait, pick now**. Members see "Waiting for X to pick the place", and the locked pick shows up for them live. If the owner isn't going, members see "X isn't going tonight" and a **Plan it** button. A tropa only on your phone (or just you) works as before: answer, then Next.
+- **Removing people (fixed):** a removal is queued (`R.drop`) the moment Remove is tapped. It's sent at once and is never undone by a refresh in between (the old way could bring the person back). Each person in Tropa mode's list has a ✕ (owner only): tap once for Remove?, tap again to remove just them. Taps are sent straight away; if a sync round is already running, another one runs as soon as it ends. Other phones get the change through the live poke..
+- **No more friends added by hand:** a tropa is only people with Keni on their own phone, who join with the invite link or code. Add friend and From your other tropas are gone, and the + seats open the invite. Hand-added friends are cleared out of every tropa on the phone. On the server, tropa_get no longer returns hand-added rows (there were none left; the check constraint `tropa_members_phone_or_account` now blocks them), tropa_save won't add new ones, and tropa_create only adds the creator..
+- **The tropa votes (with a countdown):** in a shared tropa (someone else on their own phone), the planner sets Where, picks 1, 2 or 5 min (2 by default), and taps **Start the vote 🗳️**. Keni's top 4 for the group go to every phone live (`state.vote = { ids, at, ends }`), with a toast and buzz. Everyone taps one, and can change it until the end (`tonight.vote = { s: vote.at, id }`). Voters' faces show on each option, and a countdown ring pulses in the last 10 s. It ends at zero or as soon as everyone going has voted (the planner can End the vote now). Most votes wins; a tie goes to Keni's higher-ranked place; no votes: Keni's top pick. Every phone counts the same, so all show the winner (👑, confetti). The planner's phone locks it in after about 2 s and stores the tally on the lock (`locked.tally`), and the locked card says "🗳️ 3 of 4 voted for it". Pick a different place clears the vote. A tropa that's just you works as before (Find our place).

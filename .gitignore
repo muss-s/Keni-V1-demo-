@@ -3,3 +3,4 @@ backups/
 node_modules/
 *.log
 .mapbox-token
+keni-real/

@@ -1,0 +1,2 @@
+- Read handoffs/LIVE-STATE.md first. Update it after any task that changed something, before saying "done".
+- Background, rules and the topic index: HANDOFF.md (project root).
