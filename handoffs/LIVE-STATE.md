@@ -3,7 +3,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
 - 2026-10-21 Claude: **PWA is LIVE** on keni-real.vercel.app. Manifest, sw.js, icons and headers are checked. It hasn't been installed on a real phone yet.
-- 2026-10-22 Claude: GitHub is up to date: keni-real `730e174`. Push with every deploy.
+- 2026-10-22 Claude: GitHub is up to date: keni-real `f2679ce`. Push with every deploy.
 
 - 2026-10-21 Claude: **Push notifications are LIVE (backend and app).** No real phone has subscribed yet, so no real notification has been tested. The user declined a "send test" button.
 
@@ -64,6 +64,12 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
   - Tested in the preview with faked server calls.
   - Undo: `backups/real-index-before-profile.html`.
 - Plan the user approved, in order: Messenger chat (built) → friends (add from a shared tropa/Pasabit or a friend link/QR; requests must be accepted; block + report) → bring Pasabit back with real group chats.
+
+- 2026-10-22 Claude: **Get Keni link is LIVE**: https://keni-real.vercel.app/get (keni-real `f2679ce`; not yet tried on real phones).
+  - New page `keni-real/get.html` (/get, optional ?from=Name) shows install steps for the visitor's phone: one-tap Install on Android Chrome, Share → Add to Home Screen on iPhone (⋯ menu on Safari 26), and "open in Safari/Chrome" inside Messenger/IG. A computer gets a QR.
+  - In the app: "Invite friends to Keni" on your profile and a card at the bottom of Friends share /get?from=<first name>.
+  - sw.js no longer handles /get. The preview server in .claude/launch.json serves /get.
+  - Undo: delete get.html, and restore `backups/real-index-before-getkeni.html` and `backups/real-sw-before-get.js`.
 
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
