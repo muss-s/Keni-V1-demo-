@@ -3,7 +3,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
 - 2026-10-21 Claude: **PWA is LIVE** on keni-real.vercel.app. Manifest, sw.js, icons and headers are checked. It hasn't been installed on a real phone yet.
-- 2026-10-22 Claude: GitHub is up to date: keni-real `f2679ce`. Push with every deploy.
+- 2026-10-22 Claude: GitHub is up to date: keni-real `c03c23c`. Push with every deploy.
 
 - 2026-10-21 Claude: **Push notifications are LIVE (backend and app).** No real phone has subscribed yet, so no real notification has been tested. The user declined a "send test" button.
 
@@ -71,6 +71,12 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
   - sw.js no longer handles /get. The preview server in .claude/launch.json serves /get.
   - Undo: delete get.html, and restore `backups/real-index-before-getkeni.html` and `backups/real-sw-before-get.js`.
 
+- 2026-10-22 Claude: Profile chips (from, school, order, free time, favourite spot) use line icons, Instagram/TikTok use K.pvGlyph, and the private/tropa rows use line icons. LIVE (keni-real c03c23c). Undo: `backups/real-index-before-chip-icons.html`.
+
+- 2026-10-22 Claude: Place categories use Keni line icons everywhere instead of emoji (`CAT[x].ic`, set in the data script; `c.emoji` stays only for plain text). This covers map pins, chips, place art, sheets, search, the wheel, and lists. Vibe and food-tag emoji are unchanged. LIVE (keni-real c03c23c). Undo: `backups/real-index-before-cat-icons.html`.
+
+- 2026-10-22 Claude: Vibes, place tags (SUBS) and cravings also use line icons now. Their `.emoji` / `.e` field holds the icon and the old emoji is in `.txt`. The icon set is `TAGIC` / `window.keniTagIc` in the data script. Bursts can fly icons. LIVE (keni-real c03c23c). Undo: `backups/real-index-before-tag-icons.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -80,6 +86,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-22 Claude: Deployed the line icons (categories, vibes, tags, cravings, profile chips) and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed chat + pokes and the vote-photo fix. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed the strip removal and the no-text-selection map fix. Both are on the live site; not yet seen on the user's iPhone.
 - 2026-10-21 Claude: Deployed the push client (sw.js push handler, the `K.push` module, Settings toggle, ask card). Note: Vercel's CDN took about 10s to show the new version.
