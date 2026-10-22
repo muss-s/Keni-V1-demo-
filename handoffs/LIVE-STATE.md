@@ -3,7 +3,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
 - 2026-10-21 Claude: **PWA is LIVE** on keni-real.vercel.app. Manifest, sw.js, icons and headers are checked. It hasn't been installed on a real phone yet.
-- 2026-10-22 Claude: GitHub is up to date: keni-real `c03c23c`. Push with every deploy.
+- 2026-10-22 Claude: GitHub is up to date: keni-real `fcd0045`. Push with every deploy.
 
 - 2026-10-21 Claude: **Push notifications are LIVE (backend and app).** No real phone has subscribed yet, so no real notification has been tested. The user declined a "send test" button.
 
@@ -77,6 +77,13 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 - 2026-10-22 Claude: Vibes, place tags (SUBS) and cravings also use line icons now. Their `.emoji` / `.e` field holds the icon and the old emoji is in `.txt`. The icon set is `TAGIC` / `window.keniTagIc` in the data script. Bursts can fly icons. LIVE (keni-real c03c23c). Undo: `backups/real-index-before-tag-icons.html`.
 
+- 2026-10-23 Claude: Speed and bug fixes, LIVE (keni-real fcd0045). (1) Removed the hidden full-screen blur behind the map (`.mapbox.glass`), glass blur 22→16px, no blur-inside-blur. While the big map moves, `body.k-moving` turns off the blurs and pauses pin pulses. Card `rise` no longer animates blur. (2) Chats: the inbox only rebuilds when it changed; rows slide in once (`.ch-calm` after 700ms); smooth slides instead of the spring overshoot; keyboard fitting only updates on real changes. (3) Back in Chats/Activity switches the screen right away (`chSkipPop`), fixing being stuck after opening Activity from a notification. (4) Plan button icon centred. (5) The location card uses a line icon. Undo: `backups/real-index-before-perf.html`.
+
+- 2026-10-23 Claude: The tropa chat Plan button (🗓️) and the Chats back arrows (←) now use line icons (`K.lic('cal')`, `K.lic('back')`). LIVE (keni-real fcd0045). Tropa invite check: the invite to YQAUIVV reached the DB (notification at 17:43 UTC), but the friend has no push device, so they were never pinged. It waits unseen in their Activity.
+
+- 2026-10-23 Claude: **Push wording is LIVE (DB)**: migration `push_wording_name_first` changed 16 push texts to "Name" or "Name · group" with the message underneath, and no emoji. The old→new map is in `handoffs/notes/2026-10-23-push-wording.sql`; swap old/new to undo. iPhone adds "from Keni" itself.
+- 2026-10-23 Claude: **Easier tropa invites**, LIVE (keni-real fcd0045). New DB fn `tropa_friend_status(code, secret)` (members only; friends in/invited, LIVE). The invite sheet is now "Add people": a friend list with Add / Invited / In states and search over 6, with the link below. Add to tropa from the Friends list row, a friend's profile, and the tropa chat header (`K.tsync.addFriend`, `data-ch="tadd"`). Invites sit on top of the Chats inbox (`.ch-inv`, dismiss stored in `S.invHide`). Join from an invite is one tap (`joinFlow(code, quick)` → `joinAs`); links skip the name step when signed in. Undo: `backups/real-index-before-tinvite.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -86,6 +93,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-23 Claude: Deployed the speed fixes, Chats back fix, easier tropa invites and the icon swaps, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed the line icons (categories, vibes, tags, cravings, profile chips) and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed chat + pokes and the vote-photo fix. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed the strip removal and the no-text-selection map fix. Both are on the live site; not yet seen on the user's iPhone.
