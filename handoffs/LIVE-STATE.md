@@ -3,7 +3,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
 - 2026-10-21 Claude: **PWA is LIVE** on keni-real.vercel.app. Manifest, sw.js, icons and headers are checked. It hasn't been installed on a real phone yet.
-- 2026-10-22 Claude: GitHub is up to date: keni-real `fcd0045`. Push with every deploy.
+- 2026-10-22 Claude: GitHub is up to date: keni-real `4f26bf7`. Push with every deploy.
 
 - 2026-10-21 Claude: **Push notifications are LIVE (backend and app).** No real phone has subscribed yet, so no real notification has been tested. The user declined a "send test" button.
 
@@ -84,6 +84,10 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - 2026-10-23 Claude: **Push wording is LIVE (DB)**: migration `push_wording_name_first` changed 16 push texts to "Name" or "Name · group" with the message underneath, and no emoji. The old→new map is in `handoffs/notes/2026-10-23-push-wording.sql`; swap old/new to undo. iPhone adds "from Keni" itself.
 - 2026-10-23 Claude: **Easier tropa invites**, LIVE (keni-real fcd0045). New DB fn `tropa_friend_status(code, secret)` (members only; friends in/invited, LIVE). The invite sheet is now "Add people": a friend list with Add / Invited / In states and search over 6, with the link below. Add to tropa from the Friends list row, a friend's profile, and the tropa chat header (`K.tsync.addFriend`, `data-ch="tadd"`). Invites sit on top of the Chats inbox (`.ch-inv`, dismiss stored in `S.invHide`). Join from an invite is one tap (`joinFlow(code, quick)` → `joinAs`); links skip the name step when signed in. Undo: `backups/real-index-before-tinvite.html`.
 
+- 2026-10-23 Claude: **Your tropas hub**, LIVE (keni-real 4f26bf7). The Plan button (`data-tz-plan`) and the Tropa mode chip (`data-tz-open`, now labelled Switch) open `K.tropaHub`: one card per tropa (faces, people count) with Plan / Chat / Add / Manage, plus New tropa and Join with a code. Friends has a Tropas tab with the same cards. Manage opens the old My tropas sheet (👑 and 💬 removed). The tutorial Plan step accepts the hub. Undo: `backups/real-index-before-tropa-hub.html`.
+
+- 2026-10-23 Claude: **Tropa photo**. The DB part is LIVE: migration `tropa_photo` adds `tropas.photo` (≤120k chars), `tropa_set_photo` (any member; adds a "X changed the tropa photo" sys line; max 3/min), allows `sys` messages, and returns the photo from tropa_get, chat_inbox, tropa_mine and tropa_invite (SQL in `handoffs/notes/2026-10-23-tropa-photo.sql`). The app part is LIVE (keni-real 4f26bf7). Manage (now titled with the tropa name) has a photo picker (256px JPEG). The photo shows on Your tropas cards, the Switch chip, Chats rows and header, and invite cards. Tapping the photo or name at the top of a tropa chat (`data-ch="tinfo"`) opens that tropa's Manage sheet. Undo: `backups/real-index-before-tropa-photo.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -93,6 +97,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-23 Claude: Deployed the Your tropas hub, tropa photos, and tropa settings from the chat header. Pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the speed fixes, Chats back fix, easier tropa invites and the icon swaps, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed the line icons (categories, vibes, tags, cravings, profile chips) and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed chat + pokes and the vote-photo fix. Checked on the live site; not yet tried on real phones.
