@@ -92,6 +92,8 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 - 2026-10-23 Claude: **Poke cards use line icons**, LIVE (keni-real 0c9e0cc). Pokes (Tara / tonight / Gutom / Nasaan), their answers (G, Pass, Maybe, Hindi, Same, Busog, OTW, Here, 5 min) and Plan it now use `K.lic` icons (new: moon, bowl, car, help, smile; maps `PIC` / `AIC` in Chats). Emoji are still used for bursts and toasts. The inbox preview is text only. Undo: `backups/real-index-before-poke-icons.html`.
 
+- 2026-10-23 Claude: **Tropa photo fix for iPhone + poke icon centring**, LIVE (keni-real 1de7689). The photo never reached the DB from the phone (YQAUIVV had no photo). Now the photo buttons are `<label for=tz-file>` pointing to one file input that stays on the page (no hidden input + .click()), the save runs from a document-level listener for the tropa that was open, and a sync for 20 s after a change can't put the old photo back (`t.photoAt`). The poke card icon box is centred (`.ch-pk .ch-pk-h > span`). Undo: `backups/real-index-before-photo-fix.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -101,6 +103,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-23 Claude: Deployed the iPhone tropa photo fix and the centred poke icon, and pushed both repos. Checked on the live site; the photo still needs a test on the iPhone.
 - 2026-10-23 Claude: Deployed the tropa info screen and the poke card line icons, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the Your tropas hub, tropa photos, and tropa settings from the chat header. Pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the speed fixes, Chats back fix, easier tropa invites and the icon swaps, and pushed both repos. Checked on the live site; not yet tried on real phones.
