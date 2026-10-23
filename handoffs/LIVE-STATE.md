@@ -88,6 +88,10 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 - 2026-10-23 Claude: **Tropa photo**. The DB part is LIVE: migration `tropa_photo` adds `tropas.photo` (≤120k chars), `tropa_set_photo` (any member; adds a "X changed the tropa photo" sys line; max 3/min), allows `sys` messages, and returns the photo from tropa_get, chat_inbox, tropa_mine and tropa_invite (SQL in `handoffs/notes/2026-10-23-tropa-photo.sql`). The app part is LIVE (keni-real 4f26bf7). Manage (now titled with the tropa name) has a photo picker (256px JPEG). The photo shows on Your tropas cards, the Switch chip, Chats rows and header, and invite cards. Tapping the photo or name at the top of a tropa chat (`data-ch="tinfo"`) opens that tropa's Manage sheet. Undo: `backups/real-index-before-tropa-photo.html`.
 
+- 2026-10-23 Claude: **Tropa info screen from the chat**, LIVE (keni-real 0c9e0cc). Tapping the top of a tropa chat now opens `K.tropaScreen.open('info')`: big photo (tap to change), name, people count + code, Add people, the people list, and Leave tropa (tap twice; closes the chat). No switcher bar. `K.tropa.remove` is now exported. Tested in preview. Undo: `backups/real-index-before-tinfo2.html`.
+
+- 2026-10-23 Claude: **Poke cards use line icons**, LIVE (keni-real 0c9e0cc). Pokes (Tara / tonight / Gutom / Nasaan), their answers (G, Pass, Maybe, Hindi, Same, Busog, OTW, Here, 5 min) and Plan it now use `K.lic` icons (new: moon, bowl, car, help, smile; maps `PIC` / `AIC` in Chats). Emoji are still used for bursts and toasts. The inbox preview is text only. Undo: `backups/real-index-before-poke-icons.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -97,6 +101,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-23 Claude: Deployed the tropa info screen and the poke card line icons, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the Your tropas hub, tropa photos, and tropa settings from the chat header. Pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the speed fixes, Chats back fix, easier tropa invites and the icon swaps, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-22 Claude: Deployed the line icons (categories, vibes, tags, cravings, profile chips) and pushed both repos. Checked on the live site; not yet tried on real phones.
