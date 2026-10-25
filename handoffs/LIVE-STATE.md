@@ -98,6 +98,12 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 - 2026-10-25 Claude: **Emoji removed from 41 buttons**, LIVE (keni-real a490577). Text only, except a line icon on Send to a chat / Open the chat (chat), Suggest a place (pin), Share my friend link (link), Report (flag). Script: scratchpad strip-emoji.js. Undo: `backups/real-index-before-strip-emoji.html`.
 
+- 2026-10-26 Claude: **Full nicknames in chat**, LIVE (keni-real 9140c09). Chats helper `nm(c, id, name)`: a nickname shows in full, a real name by its first word (names above messages in 3+ person chats, poke cards, toasts, active now, reactions). Undo: `backups/real-index-before-fullnick.html`.
+
+- 2026-10-26 Claude: **Replies in chats**. DB LIVE: migration `message_replies` adds `reply_to` to tropa_messages, dm_messages, pasabit_messages; tropa_msg_send / dm_send / ps_send take optional `p_reply` (dropped + recreated, grants kept: tropa anon+auth, dm/ps auth only); tropa_chat / dm_chat / ps_chat return `reply` + quote `rq` (helpers tropa_rq / dm_rq / ps_rq, not callable by clients). SQL: `handoffs/notes/2026-10-26-replies.sql`. App LIVE (keni-real 9140c09): swipe a message (others → right, yours → left) or long-press → Reply; reply bar above the box (`.ch-rp`), quote on the sent message (`.ch-q`, tap jumps + highlights), 'Message removed' when the original is gone; chat redraws wait until a swipe ends. Undo: `backups/real-index-before-replies.html`.
+
+- 2026-10-26 Claude: **Menu photos**. DB LIVE: migrations `menu_photos` + `menu_photos_select_own`: public bucket `menu-photos` (2 MB, jpeg/webp; upload/see/delete only in your own `<uid>/` folder, admins all), table `menu_photos` (no direct access), fns menu_photo_add (max 10 waiting), menu_photos_for, menu_photo_pending / menu_photo_review / menu_photo_unreview (admin; notifies kinds menu_ok / menu_no + push). SQL: `handoffs/notes/2026-10-26-menu-photos.sql`. App + admin LIVE (keni-real 9140c09): Menu tab box (`[data-mp]`, module 'Keni · menu photos', `K.menuPhotos`), Add menu photo (label for #mp-file, up to 5, shrunk to 1600px JPEG), swipe strip + full-screen viewer (swipe, pinch, double-tap), Activity rows; admin To do 'Menu photos waiting' with Approve/Reject (+undo; rejected file deleted after 9 s). Test slip: one preview test uploaded 2 blank photos under the owner's account for 1 min; both rows and files deleted, 0 left. Undo: `backups/real-index-before-menu-photos.html`, `backups/admin-before-menu-photos.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -107,6 +113,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-26 Claude: Deployed replies, full nicknames in chat and menu photos (app + admin), and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-26 Claude: Deployed tropa nicknames, person menu line icons and the button emoji removal, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the iPhone tropa photo fix and the centred poke icon, and pushed both repos. Checked on the live site; the photo still needs a test on the iPhone.
 - 2026-10-23 Claude: Deployed the tropa info screen and the poke card line icons, and pushed both repos. Checked on the live site; not yet tried on real phones.
