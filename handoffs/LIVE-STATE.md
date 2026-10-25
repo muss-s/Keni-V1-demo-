@@ -94,6 +94,10 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 - 2026-10-23 Claude: **Tropa photo fix for iPhone + poke icon centring**, LIVE (keni-real 1de7689). The photo never reached the DB from the phone (YQAUIVV had no photo). Now the photo buttons are `<label for=tz-file>` pointing to one file input that stays on the page (no hidden input + .click()), the save runs from a document-level listener for the tropa that was open, and a sync for 20 s after a change can't put the old photo back (`t.photoAt`). The poke card icon box is centred (`.ch-pk .ch-pk-h > span`). Undo: `backups/real-index-before-photo-fix.html`.
 
+- 2026-10-25 Claude: **Tropa nicknames**. DB LIVE: migration `tropa_nicknames` adds `tropa_members.nick` (≤20), `tropa_set_nick(code, secret, member, nick)` (any member, any member incl. self; sys line; max 5 sys/min), and the nickname in tropa_chat, tropa_msgs(2), tropa_msg_send (also push title), chat_inbox; tropa_member_json returns `nick` (name stays real so tropa_save never writes it). SQL: `handoffs/notes/2026-10-25-tropa-nick.sql`. App LIVE (keni-real a490577): pencil per person in tropa info (`K.tsync.setNick`, `saveNick`), nickname shown with the real name under it in info and Manage. Person menu (See profile / Remove friend / Report / Block) uses line icons (new: user, minus, flag, block, pen). Undo: `backups/real-index-before-nick.html`.
+
+- 2026-10-25 Claude: **Emoji removed from 41 buttons**, LIVE (keni-real a490577). Text only, except a line icon on Send to a chat / Open the chat (chat), Suggest a place (pin), Share my friend link (link), Report (flag). Script: scratchpad strip-emoji.js. Undo: `backups/real-index-before-strip-emoji.html`.
+
 ## Next
 - User: install it on a real Android phone (Install button) and a real iPhone (Safari → Share → Add to Home Screen). The card shows itself from the 2nd visit, or open it from Settings → Get the app.
 - User: on a real phone, install Keni, turn on Settings → 🔔 Notifications, then have a 2nd phone start a vote or lock a pick in a shared tropa.
@@ -103,6 +107,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 - Old open questions: Menu tab, a username notice on reports, redoing the report flow, nudging the spot pin.
 
 ## Log (newest first)
+- 2026-10-26 Claude: Deployed tropa nicknames, person menu line icons and the button emoji removal, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the iPhone tropa photo fix and the centred poke icon, and pushed both repos. Checked on the live site; the photo still needs a test on the iPhone.
 - 2026-10-23 Claude: Deployed the tropa info screen and the poke card line icons, and pushed both repos. Checked on the live site; not yet tried on real phones.
 - 2026-10-23 Claude: Deployed the Your tropas hub, tropa photos, and tropa settings from the chat header. Pushed both repos. Checked on the live site; not yet tried on real phones.
