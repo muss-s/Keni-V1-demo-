@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Keni pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+@page { size: 960px 540px; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0b0a10; }
+body { font-family: 'DM Sans', sans-serif; color: #f3f1f8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.s { width: 960px; height: 540px; position: relative; overflow: hidden; padding: 64px 64px 0; background: #0b0a10; page-break-after: always; break-after: page; }
+.s.g1 { background: linear-gradient(150deg, #231c45 0%, #0b0a10 45%); }
+.s.g2 { background: linear-gradient(210deg, #231c45 0%, #0b0a10 45%); }
+.s.g3 { background: linear-gradient(30deg, #221a40 0%, #0b0a10 45%); }
+.eb { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #c9a8ff; }
+h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 31px; line-height: 1.18; letter-spacing: -.01em; margin-top: 10px; }
+.sub { color: #a9a4b8; font-size: 14px; margin-top: 6px; }
+.pk { color: #f7a8d8; } .pu { color: #c9a8ff; }
+.foot { position: absolute; left: 64px; right: 64px; bottom: 34px; display: flex; justify-content: space-between; font-size: 11px; color: #8a8598; }
+.row { display: grid; gap: 12px; margin-top: 28px; }
+.c { background: #16151d; border: 1px solid #26242f; border-radius: 14px; padding: 18px 20px; }
+.c.hi { background: #2a2244; border-color: #3d3166; }
+.c.dk { background: #241c3b; border-color: #3a2f5c; }
+.c .n { font-size: 11px; font-weight: 700; letter-spacing: .12em; color: #f7a8d8; margin-top: 10px; }
+.c h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 19px; font-weight: 700; margin-top: 6px; }
+.c p { font-size: 13px; color: #b7b2c4; margin-top: 6px; line-height: 1.45; }
+.ic { width: 22px; height: 22px; stroke: #c9a8ff; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.c.dk .ic { stroke: #f7a8d8; }
+ul.b { list-style: none; margin-top: 10px; display: grid; gap: 5px; }
+ul.b li { font-size: 13px; color: #d9d5e3; padding-left: 14px; position: relative; line-height: 1.35; }
+ul.b li::before { content: ''; position: absolute; left: 2px; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: #c9a8ff; }
+.big { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 36px; line-height: 1.05; margin-top: 8px; }
+.lbl { font-size: 13px; font-weight: 700; color: #c9a8ff; margin-top: 4px; }
+.line { font-size: 15px; margin-top: 26px; }
+/* cover */
+.cover { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0; background: linear-gradient(165deg, #2a2152 0%, #15112a 45%, #0b0a10 80%); }
+.logo { display: flex; align-items: center; gap: 2px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 104px; letter-spacing: -.04em; line-height: 1; margin-top: -40px; }
+.logo svg { width: 64px; height: 92px; margin-left: 2px; }
+.cover .eb { margin-top: 26px; }
+.cover h1 { font-size: 42px; margin-top: 14px; }
+.cover .sub { font-size: 16px; margin-top: 12px; }
+.cover .q { font-size: 15px; margin-top: 18px; }
+/* bars */
+.bars { display: grid; gap: 9px; margin-top: 10px; }
+.bar { display: grid; grid-template-columns: 196px 1fr 40px; gap: 12px; align-items: center; font-size: 13px; color: #d9d5e3; }
+.bar span:first-child { text-align: right; }
+.bar i { height: 12px; border-radius: 99px; background: #f7a8d8; display: block; }
+.bar i.v { background: #a98bf0; }
+.bar b { font-weight: 700; }
+/* table */
+table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 13px; }
+th, td { text-align: left; padding: 13px 12px; border: 1px solid #2c2a36; vertical-align: top; }
+th { color: #c9a8ff; font-weight: 700; background: #1b1a23; }
+td { background: #13121a; color: #d9d5e3; }
+tr.k td { background: #2a2244; color: #fff; font-weight: 500; }
+/* team */
+.av { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; font-weight: 700; font-size: 18px; color: #1a1030; background: linear-gradient(135deg, #b99bff, #f7a8d8); }
+.tm { text-align: center; padding: 22px 12px; }
+.tm h3 { font-size: 15px; margin-top: 12px; }
+.tm p { color: #c9a8ff; font-size: 12.5px; }
+.mv { padding: 10px 0; border-bottom: 1px solid #2a2834; }
+.mv:last-child { border: 0; }
+.mv b { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; }
+.mv p { font-size: 12.5px; color: #b7b2c4; margin-top: 3px; }
+</style></head><body>
+
+<!-- 1 · cover -->
+<section class="s cover">
+  <div class="logo">keni<svg viewBox="0 0 64 92"><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b99bff"/><stop offset="1" stop-color="#f7a8d8"/></linearGradient></defs><path d="M32 90C32 90 4 56 4 32a28 28 0 0 1 56 0c0 24-28 58-28 58z" fill="url(#pg)"/><circle cx="32" cy="32" r="10" fill="#1d1430"/></svg></div>
+  <div class="eb">Angeles City + Pampanga</div>
+  <h1>Find your next <span class="pk">hangout</span>.</h1>
+  <p class="sub">A smarter way to discover places to eat, relax, and have fun with friends.</p>
+  <p class="q">Built around one everyday question: “Where should we go?”</p>
+  <div class="foot"><span>7-minute startup pitch · October 2026</span><span>Discover · Compare · Decide together</span></div>
+</section>
+
+<!-- 2 · problem -->
+<section class="s">
+  <div class="eb">Problem and opportunity</div>
+  <h1>The problem is not a lack of places.<br>It is the guesswork.</h1>
+  <div class="row" style="grid-template-columns: 1.65fr 1fr;">
+    <div class="c"><div class="eb" style="color:#f7a8d8">What our 20 interviews surfaced</div>
+      <div class="bars">
+        <div class="bar"><span>Outdated / missing information</span><i style="width:100%"></i><b>15/20</b></div>
+        <div class="bar"><span>Availability / full / closed</span><i style="width:87%"></i><b>13/20</b></div>
+        <div class="bar"><span>Budget / price uncertainty</span><i style="width:87%"></i><b>13/20</b></div>
+        <div class="bar"><span>Too many options / group indecision</span><i class="v" style="width:60%"></i><b>9/20</b></div>
+        <div class="bar"><span>Location / transport / parking</span><i class="v" style="width:53%"></i><b>8/20</b></div>
+      </div></div>
+    <div class="c dk"><div class="big pk" style="font-size:64px">15/20</div><p style="color:#f3f1f8;font-size:15px">mentioned outdated or missing information.</p><p>That is 75% of interviews.</p></div>
+  </div>
+  <p class="line"><span class="pk">The opportunity:</span> up-to-date local details, and one place for a group to decide.</p>
+  <div class="foot"><span>People already jump between maps, social media, reviews, and friends.</span><span>2</span></div>
+</section>
+
+<!-- 3 · value -->
+<section class="s g2">
+  <div class="eb">Value proposition</div>
+  <h1>One local guide for the group decision.</h1>
+  <p class="sub">Keni takes a group from “Where do we go?” to a place everyone agreed on.</p>
+  <div class="row" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="c"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><div class="n">01</div><h3>Discover</h3><p>Nearby spots on a map</p></div>
+    <div class="c"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h8M18 7h2M4 17h2M12 17h8"/><circle cx="15" cy="7" r="2.4"/><circle cx="9" cy="17" r="2.4"/></svg><div class="n">02</div><h3>Filter</h3><p>By category, distance, and price</p></div>
+    <div class="c"><svg class="ic" viewBox="0 0 24 24"><path d="M5 20V10M10 20V5M15 20v-7M20 20V8"/></svg><div class="n">03</div><h3>Compare</h3><p>Hours, prices, photos, and what’s open now</p></div>
+    <div class="c dk"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 20c.4-3.4 2.8-5.2 6-5.2s5.6 1.8 6 5.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16.5 14.8c2.6.2 4.2 1.7 4.5 4.6"/></svg><div class="n">04</div><h3>Decide together</h3><p>The tropa votes, and Keni locks the pick</p></div>
+  </div>
+  <p class="line" style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:20px"><span class="pk">From “Where do we go?” to “Let’s go there.”</span></p>
+  <div class="foot"><span>Built for students, young adults, and groups of friends around Angeles City and Pampanga.</span><span>3</span></div>
+</section>
+
+<!-- 4 · demo -->
+<section class="s">
+  <div class="eb">Product demonstration</div>
+  <h1>A simple flow: discover, compare, decide.</h1>
+  <div class="row" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="c"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><div class="n">01</div><h3>Discover</h3><p>Explore nearby cafes, food, and fun on the map.</p></div>
+    <div class="c"><svg class="ic" viewBox="0 0 24 24"><path d="M5 20V10M10 20V5M15 20v-7M20 20V8"/></svg><div class="n">02</div><h3>Compare</h3><p>See hours, price, and whether it’s open now.</p></div>
+    <div class="c dk"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 20c.4-3.4 2.8-5.2 6-5.2s5.6 1.8 6 5.2"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16.5 14.8c2.6.2 4.2 1.7 4.5 4.6"/></svg><div class="n">03</div><h3>Decide together</h3><p>Start a tropa vote. Friends vote, and Keni locks the place.</p></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;margin-top:34px;font-size:15px"><span style="background:#f7a8d8;color:#1a1030;font-weight:700;padding:9px 18px;border-radius:99px">Live web app</span><b>keni-real.vercel.app/get</b><span style="color:#a9a4b8">Search places and start a tropa vote.</span></div>
+  <div class="foot"><span>Try it on any phone, no download needed.</span><span>4</span></div>
+</section>
+
+<!-- 5 · business model -->
+<section class="s g3">
+  <div class="eb">Business model and revenue</div>
+  <h1>Free for users. Paid by venues.</h1>
+  <p class="sub">Users bring the crowd. Venues pay to reach it.</p>
+  <div class="row" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="c"><div class="eb">For users</div><div class="big">Free</div><div class="lbl">Always</div>
+      <ul class="b"><li>Map, search, and filters</li><li>Place details</li><li>Tropa votes and chat</li></ul></div>
+    <div class="c"><div class="eb">Venues · Basic</div><div class="big">₱500</div><div class="lbl">per month</div>
+      <ul class="b"><li>Edit hours, prices, contacts</li><li>Cover photo and description</li><li>See what people report</li></ul></div>
+    <div class="c hi"><div class="eb">Venues · Premium</div><div class="big">₱1,299</div><div class="lbl">per month</div>
+      <ul class="b"><li>Everything in Basic</li><li>Promos and events</li><li>Deal badge on the map, top row in Explore</li><li>Deal tag in tropa votes</li><li>Weekly views and saves</li></ul></div>
+  </div>
+  <div class="foot"><span>1-month free trial for venues · Sponsored promotions: custom · Already built in Keni Studio</span><span>5</span></div>
+</section>
+
+<!-- 6 · go to market -->
+<section class="s">
+  <div class="eb">Go-to-market strategy</div>
+  <h1>Launch locally. Earn trust. Then scale.</h1>
+  <div class="row" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="c"><div class="n" style="margin:0">01 · FIRST</div><h3>Campus pilot</h3><ul class="b"><li>Recruit student groups</li><li>Observe real outing decisions</li><li>Collect feedback on repeat use</li></ul></div>
+    <div class="c"><div class="n" style="margin:0">02 · NEXT</div><h3>Local venues</h3><ul class="b"><li>Onboard cafes, restaurants, recreation</li><li>Owners verify hours, prices, photos</li><li>Free first month in Keni Studio</li></ul></div>
+    <div class="c"><div class="n" style="margin:0">03 · AFTER PROOF</div><h3>Community growth</h3><ul class="b"><li>Campus ambassadors and referrals</li><li>Short local guides on TikTok / Instagram</li><li>Promote partners once data is trusted</li></ul></div>
+  </div>
+  <p class="line"><span class="pk">Launch rule:</span> start with organic campus and community channels. Test paid ads only after conversion is measurable.</p>
+  <div class="foot"><span>Rollout for Angeles City and Pampanga, starting with students and nearby venues.</span><span>6</span></div>
+</section>
+
+<!-- 7 · competition -->
+<section class="s g2">
+  <div class="eb">Competitive advantage</div>
+  <h1>Keni competes with the way people decide today.</h1>
+  <p class="sub">The edge: one flow from searching to a group decision.</p>
+  <table>
+    <tr><th style="width:18%">Current option</th><th style="width:30%">What it does well</th><th>What’s still missing</th></tr>
+    <tr><td>Maps</td><td>Directions, place info, ratings</td><td>Details are often outdated, and it can’t help a group choose.</td></tr>
+    <tr><td>Social media</td><td>Photos, trends, personal reviews</td><td>Useful posts are scattered; prices and hours are hard to compare.</td></tr>
+    <tr><td>Group chats</td><td>Easy to talk with friends</td><td>Long threads, no clear answer, and plans fall apart.</td></tr>
+    <tr class="k"><td>Keni</td><td>Map + details owners keep current</td><td>A tropa votes and locks a place in one flow.</td></tr>
+  </table>
+  <div class="foot"><span>Our hardest advantage to build: accurate local data and user trust.</span><span>7</span></div>
+</section>
+
+<!-- 8 · team -->
+<section class="s">
+  <div class="eb">Management team</div>
+  <h1>Five people. One local launch.</h1>
+  <div class="row" style="grid-template-columns: repeat(5, 1fr); margin-top: 36px;">
+    <div class="c tm"><div class="av">B</div><h3>Bea Louise Uson</h3><p>Product strategy &amp; coordination</p></div>
+    <div class="c tm"><div class="av">J</div><h3>Joaquin Chaster Celis</h3><p>Customer research &amp; prototype testing</p></div>
+    <div class="c tm"><div class="av">M</div><h3>Mon Karlo Don Lapid</h3><p>Business model &amp; venue partnerships</p></div>
+    <div class="c tm"><div class="av">R</div><h3>Remus Aimiel Marasigan</h3><p>Competitive insight &amp; product positioning</p></div>
+    <div class="c tm"><div class="av">K</div><h3>Kyra Lois Santos</h3><p>Metrics, validation &amp; pilot operations</p></div>
+  </div>
+  <p class="line" style="margin-top:40px">The pilot needs shared ownership: product quality, customer learning, venue trust, and disciplined spending.</p>
+  <div class="foot"><span></span><span>8</span></div>
+</section>
+
+<!-- 9 · financials -->
+<section class="s g1">
+  <div class="eb">Financial projections and key metrics</div>
+  <h1>Model the economics before scaling spend.</h1>
+  <div class="row" style="grid-template-columns: repeat(3, 1fr); margin-top: 20px;">
+    <div class="c"><div class="eb">Lean pilot</div><div class="big">₱7,598</div><p>10 basic + 2 premium venues</p></div>
+    <div class="c hi"><div class="eb">Base target</div><div class="big">₱16,495</div><p>20 basic + 5 premium venues</p></div>
+    <div class="c"><div class="eb">Stretch</div><div class="big">₱32,990</div><p>40 basic + 10 premium venues</p></div>
+  </div>
+  <div class="row" style="grid-template-columns: 1fr 1fr; margin-top: 12px;">
+    <div class="c"><div class="eb" style="color:#f7a8d8">Estimated monthly costs</div><div class="big" style="font-size:30px">₱7.6k–₱12.6k</div><p>Software, hosting, map services. Before paid marketing.</p></div>
+    <div class="c"><div class="eb" style="color:#f7a8d8">If paid ads run every day</div><div class="big" style="font-size:30px">₱45k–₱60k / month</div><p>At ₱1,500–₱2,000 a day. Only after organic growth works.</p></div>
+  </div>
+  <p class="line" style="margin-top:16px"><b class="pk">Lean about breaks even. Base pays for growth.</b> <span style="color:#b7b2c4;font-size:13px">Metrics to prove: time to choose · listing accuracy · repeat use · venue conversion</span></p>
+  <div class="foot"><span>Illustrative, not a forecast. Uses ₱500 per basic venue and ₱1,299 per premium venue.</span><span>9</span></div>
+</section>
+
+<!-- 10 · status -->
+<section class="s g1" style="background: linear-gradient(160deg, #231c45 0%, #0b0a10 45%, #0b0a10 65%, #2a1830 100%);">
+  <div class="eb">Status, validation and next steps</div>
+  <h1>Strong intent. Now prove real use.</h1>
+  <div class="row" style="grid-template-columns: 1fr 1.5fr; margin-top: 22px;">
+    <div class="c dk"><div class="big pk" style="font-size:60px">20/20</div><p style="color:#f3f1f8;font-size:15px">said “Yes” to using Keni.</p><p class="pu" style="color:#c9a8ff">Live web app with tropa votes, chat, and owner Studio. 20 interviews done.</p></div>
+    <div class="c"><div class="eb" style="color:#f7a8d8">Next 3 moves</div>
+      <div class="mv"><b>01 · Get owners on board</b><p>Bring the first venues into Studio so hours and prices are current.</p></div>
+      <div class="mv"><b>02 · Run a real outing</b><p>Student groups plan and go out with Keni; we watch where they struggle.</p></div>
+      <div class="mv"><b>03 · Measure, then decide</b><p>Track time to choose, listing accuracy, repeat use, and paid venues.</p></div></div>
+  </div>
+  <p style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:25px;margin-top:26px">Keni turns <span class="pk">“Where should we go?”</span> into a confident choice.</p>
+  <div class="foot"><span>Try it now: keni-real.vercel.app/get</span><span>10</span></div>
+</section>
+</body></html>
