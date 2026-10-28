@@ -2,6 +2,8 @@
 Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
+- 2026-10-28 Claude: **Edit details on new-place cards (admin) — LIVE 2026-10-28.** Admins can fill in name, kind, address, price, hours (after-midnight ok), closed days, hours note, description, phone/FB/IG before approving; Undo toast. Saves straight to places (admin RLS). Tested in preview with fake data. Undo: `backups/admin-before-ppedit.html`.
+
 - 2026-10-21 Claude: **PWA is LIVE** on keni-real.vercel.app. Manifest, sw.js, icons and headers are checked. It hasn't been installed on a real phone yet.
 - 2026-10-22 Claude: GitHub is up to date: keni-real `4f26bf7`. Push with every deploy.
 
