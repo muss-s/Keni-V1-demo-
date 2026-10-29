@@ -269,6 +269,8 @@ Find it in the code: `Business Studio`, `STUDIO VIEW`, `earning (demo)`, `wallet
 
 ### Basic places (added 2026-10-14)
 
+> **Update 2026-10-30 (real app):** all places Keni added (the 18 full listings and every small pin below) are hidden. The map only shows places added by people. They can be brought back; see handoffs/notes/2026-10-30-hide-keni-places.md.
+
 Besides the 18 full listings, Keni has 1,441 **basic places** from OpenStreetMap: 888 restaurants, 295 cafés, 191 sports places, 66 parks and 1 KTV. Each has only a real name, a pin and a kind.
 
 **Bars are left out for now** (2026-10-14): many bars in the list, around Fields Avenue in Balibago, are adult clubs. Drinking spots only come from full listings that have been checked. To bring bars back, add `'Bar': 'inuman'` to `KIND` in "Keni · basic places".

@@ -2,6 +2,8 @@
 Read this first. Background, rules and code anchors are in `../HANDOFF.md`.
 
 ## Now
+- 2026-10-30 Claude: **Every Keni-added place is HIDDEN (LIVE in the DB)**, at the user's request: 1,452 places (18 full listings + 1,434 small pins). Only places added by people show (5 approved now; Oh Chicken and COFFEE LAB wait for approval). Hidden, not deleted. The AUF seeding list (seeding/auf-30.csv) is all hidden places now. Undo SQL: [notes](notes/2026-10-30-hide-keni-places.md).
+
 - 2026-10-30 Claude: **Full admin place editor — LIVE 2026-10-30.** One side panel (`openPE` in keni-real/admin.html) edits every field: pin size, status, hidden, name, all kinds, symbol, area, address, drag-the-pin map (Leaflet + OSM), price, per-day hours (saved as hours/days/off_days), note, description, vibes, perks, cravings, 5 contacts, photos (upload to place-photos, cover, reorder, remove). Opens from Places rows, "Edit everything" on new places, and "Fix the place" on reports. Places tab now loads every place (was capped at 100; that is why user-added places looked missing) and has a Full listings filter. Tested in preview with fake data. Undo: `backups/admin-before-full-editor.html`.
 
 - 2026-10-28 Claude: **Edit details on new-place cards (admin) — LIVE 2026-10-28.** Admins can fill in name, kind, address, price, hours (after-midnight ok), closed days, hours note, description, phone/FB/IG before approving; Undo toast. Saves straight to places (admin RLS). Tested in preview with fake data. Undo: `backups/admin-before-ppedit.html`.
