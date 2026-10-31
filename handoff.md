@@ -1,4 +1,4 @@
-# Keni: handoff for the next AI (updated 2026-10-27)
+# Keni: handoff for the next AI (updated 2026-10-31)
 
 Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the part of `KENI-DOCS.md` you need.
 
@@ -38,7 +38,7 @@ Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the
 | Part | Where |
 |---|---|
 | App | `keni-real/index.html`, a single ~1.5 MB file of vanilla JS + CSS, about 13.7k lines, with about 49 inline `<script>` modules |
-| Admin | `keni-real/admin.html` → /admin (To do list: places waiting, reports, photos waiting) |
+| Admin | `keni-real/admin.html` → /admin. Built for PC: sidebar with Overview, To do (new places, claims, reports, photos, promos; J/K/A/R keys), Places (every place, filters), Owners, People, Place reports, Promos, Tags. Under 900px the sidebar becomes tabs. `openPE(id)` is the full place editor (side panel, every field, Undo) |
 | Install page | `keni-real/get.html` → /get?from=Name |
 | PWA | `keni-real/sw.js`, `manifest.json`, `icons/`, `vercel.json` (headers for sw/manifest, cleanUrls) |
 | Hosting | Vercel, scope `keni4`, project keni-real |
@@ -56,7 +56,8 @@ Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the
 - Place categories, vibes and tags use line icons (`CAT[x].ic`, `TAGIC` / `window.keniTagIc`); the old emoji are kept in `.txt`.
 
 **Database (public schema, RLS on everywhere; most writes go through `security definer` RPCs)**
-- `places` (1466 rows; `photo` = cover URL or `images/real/...`; `level` full/basic; `hidden`; `status` pending for user-added places), `profiles`, `profile_extras`, `admins` (1 row, the owner).
+- `places` (1,467 rows; **since 2026-10-30 all 1,452 Keni-added rows are `hidden`**, only places added by people show; `photo` = cover URL or `images/real/...`; `more_photos` jsonb; `level` full/basic; `hours` [open, close] with close > 24 = after midnight, `days` {weekday: [o,c] or null} overrides, `off_days` (0 = Sunday); `status` pending/approved/rejected; `added_by`). RLS: anyone reads approved public non-hidden rows; admins read and update everything. `profiles`, `profile_extras`, `admins` (1 row, the owner).
+- Owners: `place_claims`, `place_edits`, `place_posts`, `place_post_reports`, `place_hits` (views/saves per phone/day). Admin RPCs: `admin_overview`, `owners_admin`, `owner_remove/restore`, `people_admin`, `people_reports_admin`, `report_handle`, `pasabit_admin_cancel`.
 - Tropas: `tropas`, `tropa_members` (with `nick`), `tropa_messages` (with `reply_to`), `tropa_poke_answers`, `tropa_msg_reactions`. RPCs `tropa_*` (get/save/join/create/leave/invite/set_photo/set_nick/msg_send/chat/...).
 - Social: `friendships`, `blocks`, `user_reports`, `dms`, `dm_messages`, `dm_reads`, `dm_reactions`, `chat_clears`, `notifications` (Activity feed; `notify()` helper).
 - Pasabit (public "tag along" plans): `pasabits`, `pasabit_members`, `pasabit_messages`, `pasabit_reactions`, `pasabit_reports`. pg_cron job `keni-pasabit-reminders`.
@@ -89,8 +90,15 @@ Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the
   - Then commit and push keni-real and the root repo. Commit trailer: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
   - Add a Log line in LIVE-STATE.
 
-## 6. Where things stand (2026-10-27)
-- **Live:** everything in LIVE-STATE "Now" up to menu photos (keni-real commit 9140c09). That includes PWA + push, tropas (planning, voting, live sync, roles, chat, pokes as polls, photo, nicknames, info screen), friends, DMs, Activity, Pasabit, profiles, QR scan, replies in chats, menu photos with admin review, after-trip ratings, streaks/badges, and line icons everywhere.
+## 6. Where things stand (2026-10-31)
+- **Latest (2026-10-28 to 10-30), all live:**
+  - Owner side: real claims, Studio (edit listing, reports, plan card shown only, Your numbers), promos and events.
+  - PC admin and the full place editor; the Places tab lists every place.
+  - The final school pitch is done (deck `pitch/Keni-Startup-Pitch-fixed.pdf`; users free, venues pay).
+  - The owner then asked to hide every place Keni added, so only 5 approved places from people show. Undo SQL is in `handoffs/notes/2026-10-30-hide-keni-places.md`.
+- **The owner's mood:** after the pitch they felt lost (no testers, and the app runs on its users). I suggested a 2-week test with 3 friend groups; they chose "just the seeding for now". Be encouraging and concrete; don't push big plans.
+- **Seeding:** `seeding/auf-30.csv` has 30 small pins near AUF for the owner to fill in, but those pins are hidden now. Ask how they want to seed before using it.
+- **Live (older):** everything in `handoffs/LOG-ARCHIVE.md` up to menu photos (keni-real commit 9140c09). That includes PWA + push, tropas (planning, voting, live sync, roles, chat, pokes as polls, photo, nicknames, info screen), friends, DMs, Activity, Pasabit, profiles, QR scan, replies in chats, menu photos with admin review, after-trip ratings, streaks/badges, and line icons everywhere.
 - **Live since 2026-10-27 (not tried on real phones):** place photos + auto cover.
   - Photos tab "From people" with Add photos.
   - Overview row of the newest 4 photos.
@@ -103,7 +111,7 @@ Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the
 - **Parked (don't build unless asked):** live tropa location sharing (a PWA can only share while the app is open), and Messenger share.
 - **Open, needs details from the owner:** "pins disappearing" on the map.
 - **Last ideas offered (none picked yet):** open-now alerts, price checks, split the bill, "where we've been" tropa map, late-night finder.
-- **Not built:** admin pages for user/Pasabit reports (rows land in `user_reports` / `pasabit_reports`), Studio owner events (`postOwner` is a stub), menu-from-photo AI (discussed; the owner chose photos only).
+- **Not built:** paid plans (the Studio plan card only shows a toast), menu-from-photo AI (discussed; the owner chose photos only).
 
 ## 7. Gotchas learned the hard way
 - `.ch-m` has `overflow:hidden`; swipe UI needed `.ch-sw{overflow:visible}`. Chat `draw()` must wait while `thread` has `ch-swiping`.
@@ -111,12 +119,19 @@ Read this file, then `handoffs/LIVE-STATE.md` (what is true right now), then the
 - Grid children stretch: the photo viewer had to use flex with `min-width:0`.
 - Storage `remove()` silently removes 0 files without a **select** policy.
 - Recreated functions get anon execute by default; always revoke explicitly.
-- `places` has a `places_touch` trigger (updated_at).
+- `places` has a `places_touch` trigger (updated_at). The app re-downloads places when the row count or newest updated_at changes, so any update reaches phones on next open.
+- Supabase returns at most 1,000 rows per request: page with `.range()`. A hidden `.limit(100)` in the admin Places tab once made user-added places look missing.
+- **Admin preview tests:** fake the whole backend. Navigate the tab to `/manifest.json`, put a fake session in localStorage (`sb-wlxkdivnktxdbwbertjw-auth-token`), fetch `/admin.html`, inject a `<script>` that wraps `window.fetch` (in an IIFE, or a second write fails with "already declared"), then `document.write` it. Remove the fake token afterwards. `people_reports_admin` must return `{users:[],pasabits:[]}`.
+- Screenshots in a hidden preview pane can catch animations half done (panels look see-through). Check with `elementFromPoint` before "fixing" it.
+- Carto map tiles now need an API key; use `tile.openstreetmap.org` with attribution, and a `L.divIcon` pin (Leaflet's default marker image doesn't load from cdnjs).
+- Bash heredocs with quotes or `’` can fail; write patch scripts with the Write tool.
 - The owner's iPhone is the main test device. Safari quirks (file input, sheets stuck at the bottom, text selection on long press) have each needed specific fixes; see LIVE-STATE.
 
 ## 8. Files to know
 - `CLAUDE.md`: two lines pointing here and to LIVE-STATE.
-- `handoffs/LIVE-STATE.md`: Now / Next / Log, kept under about 150 lines.
+- `handoffs/LIVE-STATE.md`: Now / Next / Log, kept under about 150 lines and 15KB.
+- `handoffs/LOG-ARCHIVE.md`: older LIVE-STATE entries with full details and undo paths.
+- `seeding/auf-30.csv`: AUF seeding sheet. `pitch/`: the pitch deck and its HTML source.
 - `handoffs/notes/`: SQL and long details per topic.
 - `KENI-DOCS.md`: what every feature does, for people (§17 is the real version).
 - `backups/`: about 86 before-change copies, for undo.
