@@ -2,12 +2,14 @@
 Read this first. Background, rules and code anchors are in `../HANDOFF.md`. Older entries, with full details and undo paths, are in `LOG-ARCHIVE.md`.
 
 ## Now
+- 2026-10-31 Claude: **Credit for adding places, LIVE** (keni-real 2fa385b). Opt-in toggle "Show my name on places I add"; "First pinned by <name>" on place pages; "Places added" on profiles; a burst when your place is approved. DB migration `place_credit` is LIVE (additive: `profile_extras.show_on_places`, RPCs `place_credit`, `place_credit_set`, `profile_mine`/`profile_page` got new keys). Checked on the live site (new code served). Tested with stubs; not run end to end with a real approved place. Report: `.orchestrate/place-credit.md`. Undo: `backups/real-index-before-place-credit.html`.
 - 2026-10-30 Claude: **Only places added by people show.** At the user's request, all 1,452 Keni-added places (18 full listings + 1,434 small pins, `added_by is null`) are `hidden = true`. Hidden, not deleted. The live app shows 5 approved places: Royal Brews Cafe, Hakone - Infinity, Pour Over - AUF, Doze, Totobits. Oh Chicken and COFFEE LAB are waiting for approval in /admin. Undo SQL (keeps the 7 that were already hidden): [notes/2026-10-30-hide-keni-places.md](notes/2026-10-30-hide-keni-places.md).
 - 2026-10-30 Claude: **Full admin place editor, LIVE** (keni-real 62ec421). A side panel (`openPE` in keni-real/admin.html) edits every field of a place: pin size, status, hidden, name, all kinds, symbol, area, address, pin on a Leaflet + OSM map, price, hours per day, hours note, description, vibes, perks, cravings, 5 contacts, photos (upload, cover, reorder, remove). It opens from Places rows, "Edit everything" on new places and "Fix the place" on reports. Save has Undo. The Places tab loads every place (it was capped at 100, which hid user-added places) and has a Full listings filter. Tested only with fake data; a real save and a real photo upload haven't been tried. Undo: `backups/admin-before-full-editor.html`.
 - Live and never tried on real phones: almost everything (PWA install, push, tropa sync and voting, chats, Pasabit, QR scan, owner claims, Studio, promos, place photos). This is the biggest risk.
 - Live, never used with real data: the PC admin (Overview, To do with J/K/A/R keys, Owners, People), owner claims, promos and events, Your numbers.
 
 ## Next
+- User: on a real phone, turn on "Show my name on places I add", add a place, approve it in /admin, reopen the app (burst), check "First pinned by".
 - User: approve or fix Oh Chicken and COFFEE LAB in /admin (Edit everything → Approve).
 - User: try one real save and one real photo upload in the admin editor.
 - Seeding: `seeding/auf-30.csv` lists 30 AUF small pins to fill in, but they are all hidden now. Ask before using it: un-hide those rows, or seed by adding places as a person.
@@ -17,6 +19,7 @@ Read this first. Background, rules and code anchors are in `../HANDOFF.md`. Olde
 - Parked, don't build: tropa live location; Messenger share.
 
 ## Log (newest first)
+- 2026-10-31 Claude: Deployed place credit (keni-real 2fa385b, DB migration `place_credit`). Checked on the live site.
 - 2026-10-31 Claude: Handoff refresh. Old Now/Next/Log moved to `LOG-ARCHIVE.md`; `HANDOFF.md` updated.
 - 2026-10-30 Claude: Hid all 1,452 Keni-added places (DB only, no deploy). Pushed notes (root 5ab375c).
 - 2026-10-30 Claude: Deployed the full admin place editor + all-places list (keni-real 62ec421, root 12c5da1). Checked on the live site.
